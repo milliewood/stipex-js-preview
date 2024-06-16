@@ -2,6 +2,8 @@ require('dotenv').config();
 const axios = require('axios');
 
 class StipexJS {
+    apiVersion: string;
+    headers: { 'Content-Type': string; Authorization: string; };
     constructor() {
         this.apiVersion = process.env.STIPEX_API_VERSION || 'v1'; // Default to 'v1' if not provided
         this.headers = {
@@ -10,11 +12,11 @@ class StipexJS {
         };
     }
 
-    setHeaders(customHeaders) {
+    setHeaders(customHeaders: { 'Content-Type': string; Authorization: string; }) {
         this.headers = { ...this.headers, ...customHeaders };
     }
 
-    async request(endpoint, method, data) {
+    async request(endpoint: string, method: string, data: string) {
         try {
             const url = endpoint.includes('http') ? endpoint : `${process.env.STIPEX_HOME_PAGE}/${this.apiVersion}/${endpoint}`;
             const response = await axios({
