@@ -1,0 +1,21 @@
+{
+  "name": "stipexjs",
+  "version": "1.0.0",
+  "description": "StipexJS package for dynamic API integrations with Stipex Payment Infrastructure",
+  "main": "stipex.js",
+  "scripts": {
+    "start": "node example.js",
+    "cli": "node cli.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },"bin": {
+    "stipexjs": "./cli.js"
+  },
+  "keywords": [],
+  "author": "Stipex DevOps Team Alpha",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5"
+  }
+}
