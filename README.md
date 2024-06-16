@@ -1,4 +1,4 @@
-StipexJS
+#StipexJS
 StipexJS is a Node.js package designed for dynamic API integrations, allowing you to send requests to various endpoints with customizable headers and JSON data.
 
 Installation
