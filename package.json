@@ -2,18 +2,18 @@
   "name": "stipexjs",
   "version": "1.0.2- preview build",
   "description": "StipexJS package for dynamic API integrations with Stipex Payment Infrastructure",
-  "main": "./src/stipex.js",
+  "main": "./src/stipex.ts",
   "homepage": "https://fmpesa.onrender.com",
   "repository": {
     "url": "https://github.com/milliewood/stipexjs"
   },
   "scripts": {
     "start": "node ./src/example.js",
-    "cli": "node ./src/cli.js",
+    "cli": "node ./bin/cli.js",
     "build": "tsup"
   },
   "bin": {
-    "stipexjs": "./cli.js"
+    "stipexjs": "./bin/cli.js"
   },
   "keywords": [],
   "author": "Stipex DevOps Team Alpha",

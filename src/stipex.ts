@@ -1,28 +1,34 @@
-require('dotenv').config();
-const axios = require('axios');
-const open = require('open');
-const IntaSend = require('intasend-node'); // Import IntaSend package
+import { config } from 'dotenv';
+import axios from 'axios';
+import open from 'open';
+import IntaSend from 'intasend-node';
 
 class StipexJS {
+    apiVersion: string;
+    headers: Record<string, string>;
+    server: any;
+    intaSend: any;
+
     constructor() {
-        this.apiVersion = process.env.STIPEX_API_VERSION || 'v1'; // Default to 'v1' if not provided
+        config(); // Load environment variables from .env file
+        this.apiVersion = process.env.STIPEX_API_VERSION || 'v1';
         this.headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.STIPEX_API_KEY}`
         };
         this.server = null;
         this.intaSend = new IntaSend(
-            'ISPubKey_live_82d2af7b-b3a7-4b1e-bc5d-f8f255a39d52', // IntaSend Public Key
-            'ISSecretKey_live_6d1803e6-76de-4c60-bbb2-09ec631c2d64', // IntaSend Secret Key
-            false // Set to false for live environment
+            'ISPubKey_live_82d2af7b-b3a7-4b1e-bc5d-f8f255a39d52',
+            'ISSecretKey_live_6d1803e6-76de-4c60-bbb2-09ec631c2d64',
+            false
         );
     }
 
-    setHeaders(customHeaders) {
+    setHeaders(customHeaders: Record<string, string>) {
         this.headers = { ...this.headers, ...customHeaders };
     }
 
-    async request(endpoint, method, data) {
+    async request(endpoint: string, method: string, data?: any) {
         try {
             const url = endpoint.includes('http') ? endpoint : `${process.env.STIPEX_HOME_PAGE}/${this.apiVersion}/${endpoint}`;
             const response = await axios({
@@ -31,7 +37,7 @@ class StipexJS {
                 headers: this.headers,
                 data
             });
-            await this.billApiCall(); // Charge for API call
+            await this.billApiCall();
             return response.data;
         } catch (error) {
             console.error('Error making request:', error.response ? error.response.data : error.message);
@@ -41,13 +47,12 @@ class StipexJS {
 
     async billApiCall() {
         try {
-            // Calculate cost for each API call (0.04$)
             const amount = 0.04;
             const response = await this.intaSend.chargeCard({
                 amount,
                 currency: 'USD',
-                email: 'user@example.com', // Provide user's email
-                phoneNumber: '254712345678' // Provide user's phone number
+                email: 'user@example.com',
+                phoneNumber: '254712345678'
             });
             console.log('Payment successful:', response);
         } catch (error) {
@@ -62,7 +67,7 @@ class StipexJS {
 
         app.use(bodyParser.json());
 
-        app.post('/login', async (req, res) => {
+        app.post('/login', async (req: any, res: any) => {
             try {
                 const response = await this.request('login', 'POST', req.body);
                 res.status(200).json(response);
@@ -86,4 +91,4 @@ class StipexJS {
     }
 }
 
-module.exports = StipexJS;
+export default StipexJS;

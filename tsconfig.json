@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+      "moduleResolution": "node",
+      // Other options...
+    },
+    // Other configurations...
+  }
+  
