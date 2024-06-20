@@ -5,7 +5,7 @@
   "main": "./src/stipex.ts",
   "homepage": "https://fmpesa.onrender.com",
   "repository": {
-    "url": "https://github.com/milliewood/stipexjs"
+    "url": "https://github.com/milliewood/stipex-js-preview"
   },
   "scripts": {
     "start": "node ./src/example.js",
