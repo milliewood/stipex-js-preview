@@ -1,0 +1,73 @@
+// Use Axios for seamlessness
+import axios from 'axios';
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// Ensure to import uuidv4
+import { v4 as uuidv4 } from 'uuid';
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// Global Variables
+import stipex from '../../api/stipex';
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+
+// Initialize stipex
+const stipex = stipex();
+const baseUrl = process.env.STIPEX_PRODUCT_SERVER_URL;
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+
+export default async function stipexNewProduct(productData) {
+  // Define the API URL
+  const apiUrl = `${baseUrl}/products`;  // Assuming the endpoint is /products
+  
+  // Function to generate an idempotency key
+  function generateIdempotencyKey() {
+      return uuidv4();
+  }
+  // Create FormData object with required parameters
+  const formData = new FormData();
+  for (const key in productData) {
+    formData.append(key, productData[key]);
+  }
+
+  // Define the headers
+  const token = localStorage.getItem('jwtToken');
+  const headers = {
+    'Content-Type': 'multipart/form-data',  // Using multipart/form-data for file uploads
+    'Authorization': `Bearer ${token}`,
+    'STIPEX_API_KEY': process.env.STIPEX_API_KEY,
+    'STIPEX_API_SECRET': process.env.STIPEX_API_SECRET,
+    'Idempotency-Key': generateIdempotencyKey(), // Ensure idempotency
+  };
+
+  try {
+    // Sending POST request with formData and headers
+    const response = await stipex.post(apiUrl, formData, { headers });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating product:', error);
+    throw error;
+  }
+};
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
