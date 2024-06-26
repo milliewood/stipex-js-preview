@@ -1,6 +1,6 @@
 {
   "name": "stipexjs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "StipexJS package for dynamic API integrations with Stipex Payment Infrastructure - preview build",
   "main": "./src/stipex.ts",
   "homepage": "https://fmpesa.onrender.com",
